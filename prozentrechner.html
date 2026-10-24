@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prozentrechner: Prozentwert, Grundwert, Prozentsatz, Rabatt (kostenlos)</title><meta name="description" content="Prozentrechner online: Prozentwert, Prozentsatz und Grundwert berechnen, Rabatt und Aufschlag ausrechnen, Mehrwertsteuer rauf- und runterrechnen. Kostenlos und ohne Anmeldung."><link rel="stylesheet" href="style.css"></head><body><header class="kopf"><div class="in"><a class="logo" href="/">Klartext<span>Vorlagen</span></a><nav><a href="/#produkte">Produkte</a><a href="/#tools">Gratis-Tools</a><a href="https://payhip.com/KlartextVorlagen" rel="noopener">Zum Shop</a></nav></div></header><main class="schmal">
+<p class="krumel"><a href="/">Start</a> › <a href="/#tools">Gratis-Tools</a></p>
+<h1>Prozentrechner</h1>
+<div class="box"><h2>Wie viel sind X % von Y?</h2><input id="a1" type="number" step="any"> % von <input id="a2" type="number" step="any"> = <span class="r" id="ra"></span></div>
+<div class="box"><h2>Wie viel Prozent sind X von Y?</h2><input id="b1" type="number" step="any"> von <input id="b2" type="number" step="any"> = <span class="r" id="rb"></span></div>
+<div class="box"><h2>X sind P % – wie groß ist der Grundwert?</h2><input id="c1" type="number" step="any"> sind <input id="c2" type="number" step="any"> % → Grundwert <span class="r" id="rc"></span></div>
+<div class="box"><h2>Rabatt / Aufschlag</h2>Preis <input id="d1" type="number" step="any"> Änderung <input id="d2" type="number" step="any"> % (Rabatt negativ, z. B. −20) = <span class="r" id="rd"></span></div>
+<div class="box"><h2>Mehrwertsteuer</h2>Betrag <input id="e1" type="number" step="any"> Satz <input id="e2" type="number" step="any" value="19"> %<br>Brutto → Netto: <span class="r" id="re1"></span> · Netto → Brutto: <span class="r" id="re2"></span></div>
+<div class="box werbung"><strong>Mehr Alltagshilfen:</strong> Haushaltsbuch, Abo-Tracker und Kündigungsvorlagen als Excel/Textvorlagen: <a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.</div>
+<script>
+const $=id=>document.getElementById(id),f=x=>isFinite(x)?x.toLocaleString("de-DE",{maximumFractionDigits:4}):"";
+const v=id=>parseFloat($(id).value);
+function r(){$("ra").textContent=f(v("a1")/100*v("a2"));$("rb").textContent=isFinite(v("b1")/v("b2"))?f(v("b1")/v("b2")*100)+" %":"";
+$("rc").textContent=f(v("c1")/v("c2")*100);$("rd").textContent=f(v("d1")*(1+v("d2")/100));
+const s=v("e2")/100;$("re1").textContent=f(v("e1")/(1+s));$("re2").textContent=f(v("e1")*(1+s))}
+document.querySelectorAll("input").forEach(i=>i.oninput=r);
+</script></main><footer class="fuss"><div class="in"><div><strong style="color:#fff">KlartextVorlagen</strong><br>Verständliche Vorlagen und Tabellen für den Alltag.</div><div><a href="/">Start</a> · <a href="https://payhip.com/KlartextVorlagen" rel="noopener">Shop</a> · <a href="/datenschutz.html">Datenschutz</a></div></div></footer></body></html>
