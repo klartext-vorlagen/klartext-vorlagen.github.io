@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zeichenzähler & Wortzähler online – mit und ohne Leerzeichen (kostenlos)</title><meta name="description" content="Zeichen, Wörter, Sätze und Absätze zählen: Text einfügen und sofort Zeichenzahl mit und ohne Leerzeichen sehen, dazu geschätzte Lesezeit. Kostenlos, läuft im Browser."><link rel="stylesheet" href="style.css"></head><body><header class="kopf"><div class="in"><a class="logo" href="/">Klartext<span>Vorlagen</span></a><nav><a href="/#produkte">Produkte</a><a href="/#tools">Gratis-Tools</a><a href="https://payhip.com/KlartextVorlagen" rel="noopener">Zum Shop</a></nav></div></header><main class="schmal">
+<p class="krumel"><a href="/">Start</a> › <a href="/#tools">Gratis-Tools</a></p>
+<h1>Zeichenzähler & Wortzähler</h1>
+<textarea id="t" placeholder="Text hier einfügen …"></textarea>
+<div class="box"><table>
+<tr><td>Zeichen (mit Leerzeichen)</td><td id="z1">0</td></tr><tr><td>Zeichen (ohne Leerzeichen)</td><td id="z2">0</td></tr>
+<tr><td>Wörter</td><td id="w">0</td></tr><tr><td>Sätze</td><td id="s">0</td></tr><tr><td>Absätze</td><td id="a">0</td></tr><tr><td>Lesezeit (ca. 200 Wörter/Min.)</td><td id="l">0 Sek.</td></tr></table></div>
+<div class="box werbung"><strong>Bewerbung schreiben?</strong> Die <em>Bewerbungs-Checkliste</em> hilft, nichts zu vergessen: <a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.</div>
+<script>
+const $=id=>document.getElementById(id);
+$("t").oninput=()=>{const t=$("t").value;const w=(t.trim().match(/\S+/g)||[]).length;
+$("z1").textContent=[...t].length;$("z2").textContent=[...t.replace(/\s/g,"")].length;$("w").textContent=w;
+$("s").textContent=(t.match(/[^.!?]+[.!?]+(\s|$)/g)||[]).length;$("a").textContent=t.split(/\n\s*\n/).filter(x=>x.trim()).length;
+const sek=Math.round(w/200*60);$("l").textContent=sek<60?sek+" Sek.":Math.floor(sek/60)+" Min. "+sek%60+" Sek."};
+</script></main><footer class="fuss"><div class="in"><div><strong style="color:#fff">KlartextVorlagen</strong><br>Verständliche Vorlagen und Tabellen für den Alltag.</div><div><a href="/">Start</a> · <a href="https://payhip.com/KlartextVorlagen" rel="noopener">Shop</a> · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></div></div></footer></body></html>
