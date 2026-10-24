@@ -31,6 +31,72 @@ select{padding:4px}small{color:#555}
 <p id="info"><small></small></p>
 <textarea id="aus_t" readonly></textarea>
 
+<div class="box"><strong>Weitere kostenlose Tools:</strong>
+<ul><li><a href="kuendigungsfrist.html">Kündigungsfrist-Rechner</a></li><li><a href="prozentrechner.html">Prozentrechner (inkl. Rabatt und MwSt.)</a></li><li><a href="zeichenzaehler.html">Zeichenzähler und Wortzähler</a></li></ul></div>
+
+<div class="box werbung">
+<strong>Mehr Vorlagen für den Alltag:</strong> Kündigungsvorlagen, Bewerbungs-Checkliste, Abo-Tracker (Excel), Haushaltsbuch und der <em>CSV-Profi</em> mit Excel-Tricks –
+<a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function erkenne(t){const z=t.split(/\r?\n/).find(x=>x.trim())||"";const c={";":0,",":0,"\t":0};for(const ch of z)if(ch in c)c[ch]++;return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0]}
+function parse(t,d){const rows=[];let r=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];
+if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+else if(c=='"')q=true;else if(c==d){r.push(f);f=""}
+else if(c=="\n"||c=="\r"){if(c=="\r"&&t[i+1]=="\n")i++;r.push(f);rows.push(r);r=[];f=""}
+else f+=c}
+if(f!==""||r.length){r.push(f);rows.push(r)}return rows}
+function out(rows,d){return rows.map(r=>r.map(x=>(x.includes(d)||x.includes('"')||/[\r\n]/.test(x))?'"'+x.replace(/"/g,'""')+'"':x).join(d)).join("\n")}
+$("datei").onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{$("ein").value=rd.result};rd.readAsText(f)};
+$("los").onclick=()=>{let t=$("ein").value.replace(/^﻿/,"");if(!t.trim()){$("info").textContent="Bitte zuerst Daten einfügen.";return}
+const d=erkenne(t);let rows=parse(t,d);const vor=rows.length;
+if($("trim").checked)rows=rows.map(r=>r.map(x=>x.trim()));
+if($("leer").checked)rows=rows.filter(r=>r.some(x=>x.trim()!==""));
+let kopf=[];if($("kopf").checked&&rows.length)kopf=[rows.shift()];
+if($("dupl").checked){const s=new Set();rows=rows.filter(r=>{const k=JSON.stringify(r);if(s.has(k))return false;s.add(k);return true})}
+const all=kopf.concat(rows);const ad=$("aus").value==="auto"?d:$("aus").value;
+$("aus_t").value=out(all,ad);
+$("info").innerHTML="<small>Erkanntes Trennzeichen: "+(d=="\t"?"Tab":d)+" · Zeilen vorher: "+vor+" · nachher: "+all.length+" · entfernt: "+(vor-all.length)+"</small>"};
+$("kopieren").onclick=()=>{$("aus_t").select();navigator.clipboard?.writeText($("aus_t").value)};
+$("laden").onclick=()=>{const b=new Blob(["﻿"+$("aus_t").value],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="bereinigt.csv";a.click()};
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kostenloser CSV-Reiniger – Duplikate, Leerzeilen, Trennzeichen (läuft im Browser)</title>
+<meta name="description" content="CSV-Datei online bereinigen: Leerzeichen entfernen, Leerzeilen und Duplikate löschen, Trennzeichen umwandeln (Semikolon/Komma/Tab). Kostenlos, ohne Upload – alles läuft in deinem Browser.">
+<style>
+body{font-family:system-ui,sans-serif;max-width:860px;margin:0 auto;padding:16px;color:#222;line-height:1.5}
+h1{font-size:1.6rem}textarea{width:100%;height:170px;font-family:monospace;box-sizing:border-box}
+label{display:block;margin:4px 0}button{padding:8px 14px;margin:6px 6px 6px 0;cursor:pointer}
+.box{background:#f3f6fa;border-radius:8px;padding:12px;margin:12px 0}
+.werbung{background:#fff6e0;border:1px solid #f0d28a}
+select{padding:4px}small{color:#555}
+</style>
+</head>
+<body>
+<h1>Kostenloser CSV-Reiniger</h1>
+<p>Füge deine CSV ein oder wähle eine Datei. Die Daten verlassen deinen Rechner nicht – alles läuft lokal im Browser.</p>
+<input type="file" id="datei" accept=".csv,.txt,text/csv">
+<textarea id="ein" placeholder="Name;Stadt&#10; Anna ;Berlin&#10;&#10;Anna;Berlin"></textarea>
+<div class="box">
+<label><input type="checkbox" id="trim" checked> Leerzeichen am Anfang/Ende jeder Zelle entfernen</label>
+<label><input type="checkbox" id="leer" checked> Leere Zeilen löschen</label>
+<label><input type="checkbox" id="dupl" checked> Doppelte Zeilen löschen</label>
+<label><input type="checkbox" id="kopf" checked> Erste Zeile ist Kopfzeile (bleibt oben, wird nicht als Duplikat gewertet)</label>
+<label>Ausgabe-Trennzeichen:
+<select id="aus"><option value="auto">wie Eingabe</option><option value=";">Semikolon ;</option><option value=",">Komma ,</option><option value="&#9;">Tabulator</option></select></label>
+</div>
+<button id="los">Bereinigen</button><button id="kopieren">Kopieren</button><button id="laden">Als Datei speichern</button>
+<p id="info"><small></small></p>
+<textarea id="aus_t" readonly></textarea>
+
 <div class="box werbung">
 <strong>Mehr Vorlagen für den Alltag:</strong> Kündigungsvorlagen, Bewerbungs-Checkliste, Abo-Tracker (Excel), Haushaltsbuch und der <em>CSV-Profi</em> mit Excel-Tricks –
 <a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.
