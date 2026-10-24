@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zeichenzähler & Wortzähler online – mit und ohne Leerzeichen (kostenlos)</title>
+<meta name="description" content="Zeichen, Wörter, Sätze und Absätze zählen: Text einfügen und sofort Zeichenzahl mit und ohne Leerzeichen sehen, dazu geschätzte Lesezeit. Kostenlos, läuft im Browser.">
+<style>body{font-family:system-ui,sans-serif;max-width:700px;margin:0 auto;padding:16px;color:#222;line-height:1.5}textarea{width:100%;height:200px;box-sizing:border-box}.box{background:#f3f6fa;border-radius:8px;padding:12px;margin:12px 0}.werbung{background:#fff6e0;border:1px solid #f0d28a}td{padding:2px 14px 2px 0}</style></head><body>
+<p><a href="/">← Alle Tools</a></p>
+<h1>Zeichenzähler & Wortzähler</h1>
+<textarea id="t" placeholder="Text hier einfügen …"></textarea>
+<div class="box"><table>
+<tr><td>Zeichen (mit Leerzeichen)</td><td id="z1">0</td></tr><tr><td>Zeichen (ohne Leerzeichen)</td><td id="z2">0</td></tr>
+<tr><td>Wörter</td><td id="w">0</td></tr><tr><td>Sätze</td><td id="s">0</td></tr><tr><td>Absätze</td><td id="a">0</td></tr><tr><td>Lesezeit (ca. 200 Wörter/Min.)</td><td id="l">0 Sek.</td></tr></table></div>
+<div class="box werbung"><strong>Bewerbung schreiben?</strong> Die <em>Bewerbungs-Checkliste</em> hilft, nichts zu vergessen: <a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.</div>
+<script>
+const $=id=>document.getElementById(id);
+$("t").oninput=()=>{const t=$("t").value;const w=(t.trim().match(/\S+/g)||[]).length;
+$("z1").textContent=[...t].length;$("z2").textContent=[...t.replace(/\s/g,"")].length;$("w").textContent=w;
+$("s").textContent=(t.match(/[^.!?]+[.!?]+(\s|$)/g)||[]).length;$("a").textContent=t.split(/\n\s*\n/).filter(x=>x.trim()).length;
+const sek=Math.round(w/200*60);$("l").textContent=sek<60?sek+" Sek.":Math.floor(sek/60)+" Min. "+sek%60+" Sek."};
+</script></body></html>
