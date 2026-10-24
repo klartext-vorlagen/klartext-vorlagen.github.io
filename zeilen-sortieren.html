@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zeilen sortieren & Duplikate entfernen online (Text-Liste bereinigen, kostenlos)</title><meta name="description" content="Textzeilen alphabetisch sortieren, doppelte Zeilen löschen, leere Zeilen entfernen und Leerzeichen trimmen. Kostenlos, ohne Anmeldung, läuft im Browser."><link rel="stylesheet" href="style.css"></head><body><header class="kopf"><div class="in"><a class="logo" href="/">Klartext<span>Vorlagen</span></a><nav><a href="/#produkte">Produkte</a><a href="/#tools">Gratis-Tools</a><a href="https://payhip.com/KlartextVorlagen" rel="noopener">Zum Shop</a></nav></div></header><main class="schmal">
+<p class="krumel"><a href="/">Start</a> › <a href="/#tools">Gratis-Tools</a></p>
+<h1>Zeilen sortieren & Duplikate entfernen</h1>
+<textarea id="ein" placeholder="Eine Zeile pro Eintrag …"></textarea>
+<div class="box"><label>Sortierung: <select id="so"><option value="az">A → Z</option><option value="za">Z → A</option><option value="zahl">Zahlen aufsteigend</option><option value="kein">nicht sortieren</option></select></label>
+<label><input type="checkbox" id="du" checked> Doppelte Zeilen entfernen</label><label><input type="checkbox" id="gk"> Groß-/Kleinschreibung beim Vergleich ignorieren</label>
+<label><input type="checkbox" id="le" checked> Leere Zeilen entfernen</label><label><input type="checkbox" id="tr" checked> Leerzeichen am Rand entfernen</label></div>
+<button id="go">Ausführen</button><button id="ko">Kopieren</button><p id="info"></p>
+<textarea id="aus" readonly></textarea>
+<div class="box werbung"><strong>Mit Tabellen arbeiten?</strong> Der <em>CSV-Profi</em> erklärt Excel- und CSV-Tricks für den Alltag: <a href="https://payhip.com/KlartextVorlagen" rel="noopener">zum Shop von Klartext Vorlagen</a>.</div>
+<script>
+const $=id=>document.getElementById(id);
+$("go").onclick=()=>{let z=$("ein").value.split(/\r?\n/);const vor=z.length;
+if($("tr").checked)z=z.map(x=>x.trim());if($("le").checked)z=z.filter(x=>x!=="");
+if($("du").checked){const s=new Set();z=z.filter(x=>{const k=$("gk").checked?x.toLowerCase():x;if(s.has(k))return false;s.add(k);return true})}
+const m=$("so").value;if(m=="az")z.sort((a,b)=>a.localeCompare(b,"de"));else if(m=="za")z.sort((a,b)=>b.localeCompare(a,"de"));else if(m=="zahl")z.sort((a,b)=>parseFloat(a.replace(",","."))-parseFloat(b.replace(",",".")));
+$("aus").value=z.join("\n");$("info").textContent="Zeilen vorher: "+vor+" · nachher: "+z.length};
+$("ko").onclick=()=>{$("aus").select();navigator.clipboard?.writeText($("aus").value)};
+</script></main><footer class="fuss"><div class="in"><div><strong style="color:#fff">KlartextVorlagen</strong><br>Verständliche Vorlagen und Tabellen für den Alltag.</div><div><a href="/">Start</a> · <a href="https://payhip.com/KlartextVorlagen" rel="noopener">Shop</a> · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></div></div></footer></body></html>
